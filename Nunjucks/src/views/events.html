@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import "macros/events.html" as eventMacros %}
+
+{% block content %}
+  {% for event in events %}
+    {{ eventMacros.eventCard(event) }}
+  {% endfor %}
+  {% if events|length == 0 %}
+    <p>No events scheduled</p>
+  {% endif %}
+{% endblock %}
