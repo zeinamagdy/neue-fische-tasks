@@ -1,0 +1,85 @@
+body {
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Logo on left, links on right */
+  align-items: center;            /* Vertically centers items */
+  background-color: #0f172a;       /* Dark background */
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.nav-links {
+  display: flex;       /* Displays <li> items horizontally */
+  gap: 1.5rem;         /* Space between menu links */
+  list-style: none;    /* Removes default list bullet points */
+  margin: 0;
+  padding: 0;
+}
+
+/* 4. Style the link anchors <a> */
+.nav-links a {
+  color: #94a3b8;
+  text-decoration: none; /* Removes underline */
+  font-family: sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* 5. Interactive Hover Effect */
+.nav-links a:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.event {
+    --color: #fff;
+    background-color: var(--color);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.event .badge {
+
+    background-color: red;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.8em;
+}
+
+.event h3 {
+    margin: 0;
+    color: #333;
+}
+
+.event p {
+    margin: 0;
+    color: #666;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    /*  Make the footer stick to the bottom of the page */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}

@@ -1,6 +1,6 @@
 import express from "express";
 import nunjucks from "nunjucks";
-
+import path from 'path';
 const app = express();
 const port = 2500;
 nunjucks.configure("src/views", {
@@ -8,6 +8,8 @@ nunjucks.configure("src/views", {
   express: app,
   watch: true,
 });
+// Always points to project-root/static regardless of where server.ts is located
+app.use('/static', express.static(path.join(process.cwd(), 'static')));
 app.get("/", (_, res) => {
   res.render("home.html", {
     title: "This is the home page",
