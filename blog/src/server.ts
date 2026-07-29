@@ -39,6 +39,9 @@ app.get("/", (_, res) => {
 app.get("/contact",(_,res)=>{
     res.render("contact.html")
 })
+app.get("/about",(_,res)=>{
+    res.render("about.html")
+})
 app.get("/post/:title", (req, res) => {
   const title= req.params.title;
   const post = posts.find((p) => {
