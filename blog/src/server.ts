@@ -2,6 +2,7 @@ import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import { getPosts } from "./services";
+import { title } from "process";
 
 const app = express();
 const port = 2500;
@@ -35,18 +36,14 @@ app.get("/", (_, res) => {
     })),
   });
 });
-
-app.get("/post/:date", (req, res) => {
-  const date = req.params.date;
+app.get("/contact",(_,res)=>{
+    res.render("contact.html")
+})
+app.get("/post/:title", (req, res) => {
+  const title= req.params.title;
   const post = posts.find((p) => {
-    const postDate = new Date(p.createdAt * 1000).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    return postDate === date;
+    return p?.title === title;
   });
-  console.log("post", post);
   if (!post) {
     res.status(404).send("Post not found");
     return;
