@@ -10,6 +10,9 @@ export type Book = {
   cover: string;
 };
 
+
+
 export type BookPreview = Pick<Book, "isbn" | "title" | "author" | "publisher">;
-
-
+export interface Favorited_book extends BookPreview {
+  isFavorite: boolean;
+}
