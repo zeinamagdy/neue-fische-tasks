@@ -1,0 +1,54 @@
+{% extends "_base.html" %} {% block content %}
+       <!-- Page Header-->
+        <header class="masthead" style="background-image: url('/static/{{post.image}}')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>Man must explore, and this is exploration at its greatest</h1>
+                            <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">Start Bootstrap</a>
+                                on August 24, 2023
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+<div class="container my-5">
+  <div class="row">
+    <!-- Main Article Body (8 Columns) -->
+    <main class="col-lg-8">
+      <article>
+        <h1 class="fw-bolder mb-1">{{post.title}}</h1>      
+        </h1>
+        <div class="text-muted fst-italic mb-3">Published on {{post.createdAt}}</div>
+
+        <!-- Preview image figure -->
+        <p>
+          {{post.content|safe}}
+        </p>
+      </article>
+    </main>
+
+    <!-- Sidebar Widget Area (4 Columns) -->
+    <aside class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header">Search</div>
+        <div class="card-body">
+          <div class="input-group">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Enter search term..."
+            />
+            <button class="btn btn-primary" type="button">Go!</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}
