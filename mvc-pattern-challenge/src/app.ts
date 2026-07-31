@@ -1,0 +1,46 @@
+import express from "express";
+import nunjucks from "nunjucks";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import postRoutes from "./routes/postRoutes";
+import contactRoutes from "./routes/contactRoutes"
+import aboutRoutes from "./routes/aboutRoute"
+
+
+const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, "..");
+const assetsDir = path.join(projectRoot, "src", "assets");
+const cssDir = path.join(projectRoot, "src", "css");
+
+nunjucks.configure(projectRoot, { autoescape: true, express: app });
+app.use("/assets", express.static(assetsDir));
+app.use("/css", express.static(cssDir));
+
+
+app.use("/", postRoutes);
+app.use("/contact",contactRoutes)
+app.use("/about",aboutRoutes)
+
+
+
+
+
+
+
+
+
+
+
+
+// app.get("/example-post", (req: Request, res: Response) => {
+//   res.render("postExample.html");
+// });
+
+const port = Number(process.env.PORT) || 3000;
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
