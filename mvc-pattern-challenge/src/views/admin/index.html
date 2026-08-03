@@ -1,0 +1,68 @@
+{% extends "_baseLayout.html" %}
+{% block main_content %}
+
+<div class="container px-4 px-lg-5">
+
+    <div class="row gx-7 gx-lg-8 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            
+            <!-- Header Action Row -->
+            <div class="d-flex justify-content-between align-items-center mb-10">
+                <h2 class="post-title m-0">All Posts</h2>
+                <a href="/posts/new" class="btn btn-primary text-uppercase">
+                    + New Post
+                </a>
+            </div>
+
+            <!-- Posts List Table -->
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr class="text-uppercase text-muted small">
+                            <th scope="col">Title</th>
+                            <th scope="col">Meta</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Static Row Example (Replace with EJS loop) -->
+                        <tr>
+                            <td>
+                                <a href="/post/1" class="post-preview text-decoration-none">
+                                    <h4 class="post-title mb-1" style="font-size: 1.1rem; font-weight: 700;">
+                                        Man must explore, and this is exploration at its greatest
+                                    </h4>
+                                    <h5 class="post-subtitle text-muted font-weight-normal mb-0" style="font-size: 0.85rem;">
+                                        Problems look mighty small from 150 miles up
+                                    </h5>
+                                </a>
+                            </td>
+                            <td>
+                                <p class="post-meta mb-0 small text-muted">
+                                    Posted by <strong>Start Bootstrap</strong>
+                                    <br>
+                                    <small>September 24, 2026</small>
+                                </p>
+                            </td>
+                            <td class="text-end text-nowrap">
+                                <!-- Edit Button -->
+                                <a href="/posts/edit/1" class="btn btn-sm btn-secondary text-uppercase me-1" style="padding: 0.35rem 0.6rem; font-size: 0.75rem;">
+                                    Edit
+                                </a>
+
+                                <!-- Delete Action Form -->
+                                <form action="/posts/delete/1" method="POST" class="d-inline" onsubmit="return confirm('Delete this post?');">
+                                    <button type="submit" class="btn btn-sm btn-danger text-uppercase" style="padding: 0.35rem 0.6rem; font-size: 0.75rem;">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

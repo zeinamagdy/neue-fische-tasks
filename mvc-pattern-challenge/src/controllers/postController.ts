@@ -1,31 +1,16 @@
-import { Request, Response } from "express";
-import { Post, seedPosts } from "../models/postModel";
+import { Request, Response ,NextFunction} from "express";
+import * as postModel from "../models/postModel";
 
-const PAGE_SIZE = 2;
-
-function loadPosts(): Post[] {
-  return seedPosts;
+export const test =(_, res:Response)=>{
+    res.send("TEST OK")
 }
+export const getAllPosts = (req: Request, res: Response, next: NextFunction) => {
 
-function slugify(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-function formatDate(unix: number): string {
-  return new Date(unix * 1000).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-export const getAllPosts = (req: Request, res: Response) => {
-  const posts = loadPosts();
-
-  const authorFilter =
-    typeof req.query.author === "string" ? req.query.author.trim() : "";
+try {
+  const posts = postModel.getAllPost()
+ console.log("dbposts",posts.length)
+//   const posts = postModel.loadPosts();
+  const authorFilter = typeof req.query.author === "string" ? req.query.author.trim() : "";
   const sort = req.query.sort === "oldest" ? "oldest" : "newest";
   const page =
     typeof req.query.page === "string" &&
@@ -46,17 +31,23 @@ export const getAllPosts = (req: Request, res: Response) => {
     return b.createdAt - a.createdAt;
   });
 
-  const totalPages = Math.max(1, Math.ceil(sortedPosts.length / PAGE_SIZE));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(sortedPosts.length / postModel.PAGE_SIZE),
+  );
   const currentPage = Math.min(page, totalPages);
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const pagedPosts = sortedPosts.slice(start, start + PAGE_SIZE);
+  const start = (currentPage - 1) * postModel.PAGE_SIZE;
+  const pagedPosts = sortedPosts.slice(start, start + postModel.PAGE_SIZE);
 
   const view = pagedPosts.map((post) => ({
     ...post,
-    slug: slugify(post.title),
-    createdAt: formatDate(post.createdAt),
+    slug: postModel.slugify(post.title),
+    createdAt: postModel.formatDate(post.createdAt),
   }));
-  res.render("./index.html", {
+
+  // console.log(view)
+
+  res.render("index", {
     posts: view,
     controls: {
       author: authorFilter,
@@ -67,6 +58,11 @@ export const getAllPosts = (req: Request, res: Response) => {
       hasNext: currentPage < totalPages,
     },
   });
+
+} catch (error) {
+    console.error("REAL ERROR ON / ROUTE:", error); 
+    res.status(500).send("Check terminal console for the actual error");
+  }
 };
 
 export const getPostBySlug = (req: Request, res: Response) => {
@@ -78,14 +74,18 @@ export const getPostBySlug = (req: Request, res: Response) => {
     res.status(400).send("Invalid slug");
     return;
   }
-
-  const posts = loadPosts();
-  const post = posts.find((p) => slugify(p.title) === slug);
+  const post  = postModel.getPostBySlug(slug);
   if (!post) {
     res.status(404).send("Post not found");
     return;
   }
-  res.render("./post.html", {
-    post: { ...post, createdAt: formatDate(post.createdAt) },
+  res.render("post", {
+    post: { ...post, createdAt: postModel.formatDate(post.createdAt) },
   });
 };
+
+export const getAllPostsAdmin =(_,res:Response)=>{
+      const posts = postModel.loadPosts();
+      res.render("admin/index",posts)
+
+}
