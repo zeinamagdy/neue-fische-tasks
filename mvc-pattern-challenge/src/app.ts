@@ -6,7 +6,8 @@ import postRoutes from "./routes/postRoutes";
 import contactRoutes from "./routes/contactRoutes";
 import aboutRoutes from "./routes/aboutRoute";
 import { connectDB,closeDB } from "./db/database";
-
+//adminjs
+import {Sequelize,DataTypes} from "sequelize"
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -48,11 +49,15 @@ process.on("SIGTERM", async () => {
   await closeDB();
   process.exit(0);
 });
+//admin section
+
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-  console.log("views" , viewsDir)
-});
+
