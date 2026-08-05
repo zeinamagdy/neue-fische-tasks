@@ -6,9 +6,11 @@ import postRoutes from "./routes/postRoutes";
 import contactRoutes from "./routes/contactRoutes";
 import aboutRoutes from "./routes/aboutRoute";
 import { connectDB,closeDB } from "./db/database";
-//adminjs
-import {Sequelize,DataTypes} from "sequelize"
+
+
 const app = express();
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,7 +22,7 @@ const viewsDir = path.join(projectRoot,"src","views")
 app.use("/assets", express.static(assetsDir));
 app.use("/css", express.static(cssDir));
 
-app.set('views', viewsDir) //
+app.set('views', viewsDir) 
 
 const env = nunjucks.configure(viewsDir, {
   autoescape: true,

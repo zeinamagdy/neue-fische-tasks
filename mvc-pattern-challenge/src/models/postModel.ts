@@ -1,33 +1,37 @@
 import { getDB } from "../db/database";
-import type { BlogEntry } from "../data/posts";
+import type { Post } from "../data/posts";
 
 export const PAGE_SIZE = 10;
 
 export function getAllPost() {
   const db = getDB();
-  return db.prepare("SELECT * FROM posts").all() as BlogEntry[];
+  return db.prepare("SELECT * FROM posts").all() as Post[];
 }
-export function getPostByid(id: number): BlogEntry | undefined {
+export async function getPostByid(id: number): Promise<Post | undefined> {
   const db = getDB();
-  return db.prepare("SELECT * FROM posts WHERE id = ?").get(id) as BlogEntry;
+  return (await db.prepare("SELECT * FROM posts WHERE id = ?").get(id)) as Post;
 }
 export async function createBlogEntry(
-  entry: Omit<BlogEntry, "id">,
+  entry: Omit<Post, "id">,
 ): Promise<number> {
   const db = getDB();
-
-  const insertPost = db.prepare(`
-    INSERT INTO posts (title, teaser, author, createdAt, image, content)
-    VALUES (@title, @teaser, @author, @createdAt, @image, @content)
+  const fullPost: Post = {
+    ...entry,
+    createdAt: new Date().getTime()
+  };  
+const insertPost = db.prepare(`
+    INSERT INTO posts (title, teaser, author, createdAt, imageText, content)
+    VALUES (@title, @teaser, @author, @createdAt, @imageText, @content)
   `);
+  console.log("entery", fullPost);
 
-  const result = insertPost.run(entry);
+  const result = await insertPost.run(fullPost);
   return Number(result.lastInsertRowid!);
 }
 
 export async function updateBlogEntry(
   id: number,
-  entry: Omit<BlogEntry, "id">,
+  entry: Omit<Post, "id">,
 ): Promise<void> {
   const db = getDB();
   const updatePost = db.prepare(`
@@ -36,32 +40,39 @@ export async function updateBlogEntry(
         teaser = @teaser,
         author = @author,
         createdAt = @createdAt,
-        image = @image,
+        imageText = @imageText,
         content = @content
     WHERE id = @id
   `);
 
-  // 2. Execute synchronously with .run()
-  updatePost.run({
+   updatePost.run({
     id: id,
     title: entry.title,
     teaser: entry.teaser,
     author: entry.author,
-    createdAt: entry.createdAt,
-    image: entry.image,
+    createdAt: new Date().getTime(),
+    imageText: entry.imageText,
     content: entry.content,
   });
 }
 export async function deleteBlogEntry(id: number): Promise<void> {
   const db = getDB();
-  const deleteStmt = db.prepare("DELETE FROM posts WHERE id = ?"); 
-  const info = deleteStmt.run({ id });
+  const deleteStmt = db.prepare("DELETE FROM posts WHERE id = ?");
+  const info = await deleteStmt.run(id);
   if (info.changes === 0) {
     throw new Error(`No post found with id ${id}`);
   }
 }
+export async function getPostByAuthor(
+  auther_name: string,
+): Promise<Post[] | undefined > {
+  const db = getDB();
+    return (await db.prepare("SELECT * FROM posts INNER JOIN authors ON posts.author_id = authors.id WHERE name = ?"
+).all(auther_name)) as Post[];
 
-export function getPostBySlug(slug: string): BlogEntry | undefined {
+
+}
+export function getPostBySlug(slug: string): Post | undefined {
   const posts = getAllPost();
   return posts.find((p) => slugify(p.title) === slug);
 }

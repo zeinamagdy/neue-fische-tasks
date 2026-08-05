@@ -8,7 +8,10 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT,
     content TEXT
-  )
+  );
+   CREATE TABLE IF NOT EXISTS authors (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL);
 `);
 // 3. Test your INSERT query
 const insert = db.prepare('INSERT INTO posts_test (title, content) VALUES (@title, @content)');

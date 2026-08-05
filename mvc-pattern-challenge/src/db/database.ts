@@ -17,9 +17,8 @@ export function connectDB(): Database.Database {
 
 export function getDB(): Database.Database {
   if (!db) {
-    // Automatically initialize if it hasn't been called yet
-    return connectDB();
-  }
+    db = connectDB(); //  the connection to db
+  
   db.exec(`
     CREATE TABLE IF NOT EXISTS posts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,11 +27,19 @@ export function getDB(): Database.Database {
       author TEXT NOT NULL,
       createdAt TEXT NOT NULL,
       image TEXT NOT NULL,
-      content TEXT NOT NULL
-    )
+      content TEXT NOT NULL,
+      author_id INTEGER
+    );
+      CREATE TABLE IF NOT EXISTS authors (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL
+    );
+    
   `);
+  }
   return db;
 }
+  
 
 export function closeDB(): void {
   if (db) {

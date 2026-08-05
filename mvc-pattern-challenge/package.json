@@ -8,7 +8,7 @@
     "start": "tsx src/app.ts",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:seed": "sqlite3 src/db/blog.db < src/db/seeddb.sql"
+    "db:seed": "sqlite3 src/db/blog2.db < src/db/seeddb.sql"
   },
   "keywords": [],
   "author": "",

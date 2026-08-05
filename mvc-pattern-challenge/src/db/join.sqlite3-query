@@ -1,0 +1,3 @@
+-- database: ./blog.db
+
+SELECT * FROM posts INNER JOIN authors ON posts.author_id = authors.id WHERE name = 'Zeinab'

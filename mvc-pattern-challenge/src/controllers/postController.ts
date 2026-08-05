@@ -63,30 +63,57 @@ export const getAllPosts = (
     res.status(500).send("Check terminal console for the actual error");
   }
 };
-export const createPost = (req: Request, res: Response) => {
+
+export const getPostsByAuthor = async (req: Request, res: Response) => {
+  console.log(req.params.author);
+  const author = req.params.author ? String(req.params.author) : "";
   try {
-    const lastPostId = postModel.createBlogEntry(req.body);
-    res.status(201).render("index", { lastId: lastPostId });
-  } catch (error) {
-    res.status(500).send("Check terminal console for the actual error");
+    const posts = await postModel.getPostByAuthor(author);
+    console.log("posts", posts);
+    res.status(200).render("index", { posts: posts });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send("Check terminal console for the actual error");
   }
 };
-export const updatePost = async (req:Request, res:Response) => {
+
+export const createPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  console.log("req", req.body);
+  try {
+    const lastPostId = await postModel.createBlogEntry(req.body);
+    const posts = postModel.getAllPost();
+    res.status(201).render("admin/index", { posts: posts, lastId: lastPostId });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("Check terminal console for the actual error");
+  }
+};
+
+export const updatePost = async (req: Request, res: Response) => {
   try {
     await postModel.updateBlogEntry(Number(req.params.id), req.body);
-    res.status(200).json({ message: "Blog entry updated" });
+    const posts = postModel.getAllPost();
+    res.status(200).render("admin/index", { posts: posts });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: "Failed to update blog entry" });
   }
-}
-export const delPost = async (req:Request, res:Response) => {
+};
+
+export const delPost = async (req: Request, res: Response) => {
   try {
     await postModel.deleteBlogEntry(Number(req.params.id));
-    res.status(200).json({ message: "Blog entry deleted" });
+    const posts = postModel.getAllPost();
+    res.status(200).render("admin/index", { posts: posts });
   } catch (err) {
+    console.log("delete", err);
     res.status(500).json({ error: "Failed to delete blog entry" });
   }
-}
+};
 export const getPostBySlug = (req: Request, res: Response) => {
   const slug = Array.isArray(req.params.slug)
     ? req.params.slug[0]
@@ -106,7 +133,13 @@ export const getPostBySlug = (req: Request, res: Response) => {
   });
 };
 
-export const getAllPostsAdmin = (_, res: Response) => {
-  const posts = postModel.getAllPost();
-  res.render("admin/index", posts);
+export const getAllPostsAdmin = async (_: any, res: Response) => {
+  const posts = await postModel.getAllPost();
+  console.log("test admin", posts);
+  try {
+    res.status(200).render("admin/index", { posts: posts });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send("Check terminal console for the actual error");
+  }
 };

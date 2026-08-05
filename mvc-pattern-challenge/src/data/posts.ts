@@ -1,6 +1,6 @@
 export interface Post {
   title: string;
-  image: string;
+  imageText: string;
   author: string;
   createdAt: number;
   teaser: string;
@@ -9,7 +9,7 @@ export interface Post {
 export const seedPosts: Post[] = [
   {
     title: "Black: The Absence, Not the Presence, of Color",
-    image: "colorful-umbrella.jpg",
+    imageText: "colorful-umbrella.jpg",
     author: "Peter Parker",
     createdAt: 1743120000,
     teaser:
@@ -19,7 +19,7 @@ export const seedPosts: Post[] = [
   },
   {
     title: "Flowers: Nature's Muse for Design",
-    image: "flowers.jpg",
+    imageText: "flowers.jpg",
     author: "Peter Parker",
     createdAt: 1745452800,
     teaser:
@@ -29,7 +29,7 @@ export const seedPosts: Post[] = [
   },
   {
     title: "UDesign's Harmony: Core Purpose and Supporting Details",
-    image: "sailing.jpg",
+    imageText: "sailing.jpg",
     author: "Peter Parker",
     createdAt: 1748736000,
     teaser:
