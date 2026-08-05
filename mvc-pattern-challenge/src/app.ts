@@ -6,7 +6,7 @@ import postRoutes from "./routes/postRoutes";
 import contactRoutes from "./routes/contactRoutes";
 import aboutRoutes from "./routes/aboutRoute";
 import { connectDB,closeDB } from "./db/database";
-
+import 'dotenv/config';
 
 const app = express();
 app.use(express.urlencoded({extended: true}));
@@ -29,7 +29,7 @@ const env = nunjucks.configure(viewsDir, {
   express: app,
   watch: true,
 });
-app.engine('html', env.render) //
+app.engine('html', env.render) 
 app.set('view engine', 'html');
 
 app.use("/", postRoutes);
@@ -51,7 +51,6 @@ process.on("SIGTERM", async () => {
   await closeDB();
   process.exit(0);
 });
-//admin section
 
 
 
