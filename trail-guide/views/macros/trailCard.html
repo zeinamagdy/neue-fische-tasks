@@ -1,0 +1,36 @@
+{% macro trailCard(trail) %}
+<article class="trail-card">
+  <div class="card-media">
+    {% if trail.image_url %}
+    <img src="{{ trail.image_url }}" alt="{{ trail.title }}" loading="lazy" />
+    {% else %}
+    <div class="media-placeholder">⛰️</div>
+    {% endif %}
+    <span class="badge badge-{{ trail.difficulty }}">
+      {{ trail.difficulty | capitalize }}
+    </span>
+  </div>
+
+  <div class="card-body">
+    <div class="card-location">
+      📍 {{ trail.region_name }}, {{ trail.region_country }}
+      <span class="card-date">{{trail.created_at}}</span>
+    </div>
+
+    <h3 class="card-title">
+      <a href="/trails/{{ trail.slug }}">{{ trail.title }}</a>
+    </h3>
+
+    {% if trail.description %}
+    <p class="card-description">{{ trail.description |safe}}</p>
+    {% endif %}
+
+    <div class="card-footer">
+      <span class="stat-item">
+        <strong>{{ trail.distance_km }}</strong> km
+      </span>
+      <a href="/trails/{{ trail.slug }}" class="card-button">View Details →</a>
+    </div>
+  </div>
+</article>
+{% endmacro %}

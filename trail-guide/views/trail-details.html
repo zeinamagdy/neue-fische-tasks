@@ -1,0 +1,72 @@
+{% extends "_base.html" %} {% block main_content %}
+<article class="trail-detail-container">
+  <!-- Back Button -->
+  <a href="/" class="back-link">← Back to all trails</a>
+
+  <!-- Header Section -->
+  <header class="detail-header">
+    <div class="header-meta">
+      <span class="location-tag"
+        >📍 {{ trail.region_name }}, {{ trail.region_country }}</span
+      >
+      <span class="badge badge-details badge-{{ trail.difficulty }}"
+        >{{ trail.difficulty | capitalize }}</span
+      >
+    </div>
+    <h1>{{ trail.title }}</h1>
+  </header>
+
+  <!-- Hero Image -->
+  <div class="detail-media">
+    {% if trail.image_url %}
+    <img src="{{ trail.image_url }}" alt="{{ trail.title }}" />
+    {% else %}
+    <div class="detail-placeholder">⛰️</div>
+    {% endif %}
+  </div>
+
+  <!-- Key Metrics Bar -->
+  <div class="metrics-bar">
+    <div class="metric-card">
+      <span class="metric-label">Distance</span>
+      <span class="metric-value"
+        ><strong>{{ trail.distance_km }}</strong> km</span
+      >
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">Difficulty</span>
+      <span class="metric-value"
+        ><strong>{{ trail.difficulty | capitalize }}</strong></span
+      >
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">Region</span>
+      <span class="metric-value"><strong>{{ trail.region_name }}</strong></span>
+    </div>
+  </div>
+
+  <!-- Content & Side Info -->
+  <div class="detail-grid">
+    <div class="detail-main">
+      <h2>About this trail</h2>
+      <p class="trail-body">
+        {% if trail.description %} {{ trail.description |safe}} {% else %} No
+        description available for this trail yet. {% endif %}
+      </p>
+    </div>
+
+    <aside class="detail-sidebar">
+      <div class="sidebar-box">
+        <h3>Trail Info</h3>
+        <ul>
+          <li><strong>Country:</strong> {{ trail.region_country }}</li>
+          <li><strong>Slug:</strong> <code>{{ trail.slug }}</code></li>
+        </ul>
+        <a href="/regions/{{ trail.region_slug }}" class="sidebar-btn">
+          Explore all {{ trail.region_name }} trails →
+        </a>
+      </div>
+    </aside>
+  </div>
+</article>
+{% endblock %}

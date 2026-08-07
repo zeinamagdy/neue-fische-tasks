@@ -14,17 +14,26 @@ export const getAllTrails = async (): Promise<Trail[] | undefined> => {
   return (await db.all(query)) as TrailwithRegoin[];
 };
 export const getTrailBySlug = async (
-  slug: string
+  slug: string,
 ): Promise<TrailwithRegoin | undefined> => {
   const db = getDB();
-  let queryWithSlug = query + ` WHERE r.slug = ?`;
-  return (await db.all(queryWithSlug, [slug])) as TrailwithRegoin;
+  let queryWithSlug = query + `WHERE t.slug = ?`;
+  console.log("querwith slug", queryWithSlug);
+  return (await db.get(queryWithSlug, [slug])) as TrailwithRegoin;
 };
 
 export const getTrailsByRegionId = async (
   regionId: number,
 ): Promise<TrailwithRegoin[] | undefined> => {
   const db = getDB();
-  let querywithRegion = query + ` WHERE r.region_id= ?`;
+  let querywithRegion = query + ` WHERE t.region_id= ?`;
   return await db.all(querywithRegion, [regionId]);
+};
+
+export const formateDate = (date: number): string => {
+  return new Date(date * 1000).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 };

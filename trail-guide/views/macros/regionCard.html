@@ -1,0 +1,18 @@
+{% macro regionCard(region) %}
+<div class="regions-grid">
+  <!-- Region Card 1 -->
+  <article class="region-card">
+    <div class="region-card-body">
+      <span class="country-tag"> 📍 {{region.country}}</span>
+      <h2 class="region-title">{{region.name}}</h2>
+      {% if region.description %}
+      <p class="region-description">{{region.description}}</p>
+      {% endif %}
+      <div class="region-card-footer">
+        <!-- <span class="trail-count">12 Trails</span> -->
+        <a href="/regions/{{ region.slug}}" class="region-btn">Explore Region →</a>
+      </div>
+    </div>
+  </article>
+</div>
+{% endmacro %}

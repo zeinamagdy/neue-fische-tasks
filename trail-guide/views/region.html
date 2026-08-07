@@ -1,0 +1,17 @@
+{% extends "_base.html" %} {% block main_content %}
+<article>
+  <a href="/regions" class="back-link">← Back to all regions</a>
+  <!-- Region Header -->
+  <header class="region-detail-header">
+    <span class="country-tag">📍 {{region.country}}</span>
+    <h1>{{region.name}}</h1>
+    <p class="region-lead">
+      {% if region.description %} {{ region.description |safe}} {% else %} No
+      description available for this region yet. {% endif %}
+    </p>
+  </header>
+
+  <!-- <hr class="divider" /> -->
+</article>
+<!-- TODO: display all the trails in the regions  -->
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "_base.html" %} {% import "macros/regionCard.html" as regionCard %}
+{% block main_content %}
+<div class="trails-grid">
+  {% for region in regions %} {{ regionCard.regionCard(region) }} {% endfor %}
+</div>
+{% endblock %}
