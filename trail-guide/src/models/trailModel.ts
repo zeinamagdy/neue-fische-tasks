@@ -34,11 +34,11 @@ export const createTrail = async (
 ): Promise<number> => {
   const db = getDB();
   const result = await db.run(
-    `INSERT INTO trails (title, slug, difficulty, distance_km, description, image_url,created_at,region_id)
-     VALUES (@title, @slug, @difficulty, @distance_km, @description,@image_url,@created_at,@region_id)`,
+    `INSERT INTO trails (title, difficulty,slug, distance_km, description, image_url,created_at,region_id)
+     VALUES (@title, @difficulty,@slug, @distance_km, @description,@image_url,@created_at,@region_id)`,
     {
       "@title": trail.title,
-      "@slug": trail.slug,
+      "@slug": slugify(trail.title),
       "@difficulty": trail.difficulty,
       "@distance_km": trail.distance_km,
       "@description": trail.description,
@@ -55,16 +55,16 @@ export const updateTrail = async (
   trail: Omit<Trail, "id">,
 ): Promise<void> => {
   const db = getDB();
-  console.log("updsted",trail)
+  console.log("updsted", trail);
   await db.run(
-    `UPDATE  trails SET title = @title, slug = @slug, difficulty = @difficulty, 
+    `UPDATE  trails SET title = @title, slug=@slug, difficulty = @difficulty, 
     description = @description, image_url = @image_url,
     region_id = @region_id,distance_km = @distance_km
      WHERE id = @id`,
 
     {
       "@title": trail.title,
-      "@slug": trail.slug,
+      "@slug": slugify(trail.title),
       "@difficulty": trail.difficulty,
       "@distance_km": trail.distance_km,
       "@description": trail.description,
@@ -85,4 +85,10 @@ export const formateDate = (date: number): string => {
     month: "long",
     day: "numeric",
   });
+};
+export const slugify = (title: string): string => {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 };

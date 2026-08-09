@@ -1,8 +1,10 @@
 {% extends "../_base.html" %} {% block main_content %}
-<h1>
-  {% if trail %}Edit Trail: {{ trail.name }}{% else %}Create New Trail{% endif
-  %}
-</h1>
+<div>
+  <h1>
+    {% if trail %}Edit Trail: {{ trail.name }}{% else %}Create New Trail{% endif %}
+  </h1>
+</div>
+
 <form action="{{ action }}" method="POST">
   <fieldset>
     <label>
@@ -15,16 +17,6 @@
       />
     </label>
     <label>
-      Slug
-      <input
-        type="text"
-        name="slug"
-        placeholder="slug"
-        value="{% if trail %}{{ trail.slug }}{% endif %}"
-      />
-    </label>
-
-    <label>
       Distance_km
       <input
         type="number"
@@ -33,6 +25,7 @@
         value="{% if trail %}{{ trail.distance_km }}{% endif %}"
       />
     </label>
+    <label>Description
     <textarea
       name="description"
       placeholder="Write a description"
@@ -40,6 +33,7 @@
     >
     {% if trail %}{{ trail.description|safe }}{% endif %}
   </textarea>
+  </label>
     <label>
       image_url
       <input
