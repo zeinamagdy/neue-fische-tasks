@@ -4,7 +4,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { connectDB, closeDB } from "./models/db";
 import "dotenv/config";
-import websiteRouter from "./routes/websiteRoutes"
+import websiteRouter from "./routes/websiteRoutes";
+import adminRouter from "./routes/adminRoutes";
+
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 
@@ -14,8 +16,9 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "..");
 const viewsDir = path.join(projectRoot, "views", "/");
 const publicDir = path.join(projectRoot, "public");
-console.log("views", viewsDir);
 
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 app.use(express.static(publicDir));
 app.set("views", viewsDir);
 
@@ -30,6 +33,7 @@ app.set("view engine", "html");
 connectDB();
 
 app.use("/", websiteRouter);
+app.use("/admin", adminRouter);
 
 process.on("SIGINT", async () => {
   console.log("SIGINT received. Closing database connection...");

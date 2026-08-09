@@ -1,0 +1,96 @@
+{% extends "../_base.html" %} {% block main_content %}
+<h1>
+  {% if trail %}Edit Trail: {{ trail.name }}{% else %}Create New Trail{% endif
+  %}
+</h1>
+<form action="{{ action }}" method="POST">
+  <fieldset>
+    <label>
+      Title
+      <input
+        type="text"
+        name="title"
+        placeholder="Title"
+        value="{% if trail %}{{ trail.title }}{% endif %}"
+      />
+    </label>
+    <label>
+      Slug
+      <input
+        type="text"
+        name="slug"
+        placeholder="slug"
+        value="{% if trail %}{{ trail.slug }}{% endif %}"
+      />
+    </label>
+
+    <label>
+      Distance_km
+      <input
+        type="number"
+        name="distance_km"
+        placeholder="distance_km"
+        value="{% if trail %}{{ trail.distance_km }}{% endif %}"
+      />
+    </label>
+    <textarea
+      name="description"
+      placeholder="Write a description"
+      aria-label="description"
+    >
+    {% if trail %}{{ trail.description|safe }}{% endif %}
+  </textarea>
+    <label>
+      image_url
+      <input
+        type="text"
+        name="image_url"
+        placeholder="image_url"
+        value="{% if trail %}{{ trail.image_url }}{% endif %}"
+      />
+    </label>
+    <label>Difficulty levels
+      <select name="difficulty" aria-label="Select difficulty" required>
+      <option selected disabled value="">Select region</option>
+      <option 
+        value="easy"
+        {% if trail and trail.difficulty == "easy" %}selected{% endif %}
+      >
+        easy
+      </option>
+      <option 
+      value="moderate"
+      {% if trail and trail.difficulty == "moderate" %}selected{% endif %}
+      >
+        moderate
+      </option>
+      <option 
+      value="hard"
+      {% if trail and trail.difficulty == "hard" %}selected{% endif %}
+      >
+        hard
+      </option>
+    </select>
+    </label>
+    <select name="region_id" aria-label="Select region_name" required>
+      <option selected disabled value="">Select region</option>
+      {% for region in regions %}
+      <option
+        value="{{ region.id }}"
+        {% if trail and trail.region_id == region.id %}selected{% endif %}
+      >
+        {{region.name}}
+      </option>
+      {% endfor %}
+    </select>
+    </label>
+  </fieldset>
+
+  <input
+    type="submit"
+    value=" {% if trail %}Update Trail{% else %}Create Trail{% endif %}"
+  />
+</form>
+{% endblock %} title: string; slug: string; difficulty: Difficulty; distance_km:
+number; description: string | null; image_url: string | null; created_at:
+number; region_name:string; region_country:string;

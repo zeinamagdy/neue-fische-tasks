@@ -13,12 +13,12 @@ export const getAllTrails = async (): Promise<Trail[] | undefined> => {
   const db = getDB();
   return (await db.all(query)) as TrailwithRegoin[];
 };
+
 export const getTrailBySlug = async (
   slug: string,
 ): Promise<TrailwithRegoin | undefined> => {
   const db = getDB();
   let queryWithSlug = query + `WHERE t.slug = ?`;
-  console.log("querwith slug", queryWithSlug);
   return (await db.get(queryWithSlug, [slug])) as TrailwithRegoin;
 };
 
@@ -29,7 +29,56 @@ export const getTrailsByRegionId = async (
   let querywithRegion = query + ` WHERE t.region_id= ?`;
   return await db.all(querywithRegion, [regionId]);
 };
+export const createTrail = async (
+  trail: Omit<Trail, "id">,
+): Promise<number> => {
+  const db = getDB();
+  const result = await db.run(
+    `INSERT INTO trails (title, slug, difficulty, distance_km, description, image_url,created_at,region_id)
+     VALUES (@title, @slug, @difficulty, @distance_km, @description,@image_url,@created_at,@region_id)`,
+    {
+      "@title": trail.title,
+      "@slug": trail.slug,
+      "@difficulty": trail.difficulty,
+      "@distance_km": trail.distance_km,
+      "@description": trail.description,
+      "@image_url": trail.image_url,
+      "@created_at": trail.created_at,
+      "@region_id": trail.region_id,
+    },
+  );
+  return result.lastID!;
+};
 
+export const updateTrail = async (
+  id: number,
+  trail: Omit<Trail, "id">,
+): Promise<void> => {
+  const db = getDB();
+  console.log("updsted",trail)
+  await db.run(
+    `UPDATE  trails SET title = @title, slug = @slug, difficulty = @difficulty, 
+    description = @description, image_url = @image_url,
+    region_id = @region_id,distance_km = @distance_km
+     WHERE id = @id`,
+
+    {
+      "@title": trail.title,
+      "@slug": trail.slug,
+      "@difficulty": trail.difficulty,
+      "@distance_km": trail.distance_km,
+      "@description": trail.description,
+      "@image_url": trail.image_url,
+      "@region_id": trail.region_id,
+      "@id": id,
+    },
+  );
+};
+
+export const deleteTrail = async (id: number): Promise<void> => {
+  const db = getDB();
+  await db.run(`DELETE FROM trails WHERE id = @id`, { "@id": id });
+};
 export const formateDate = (date: number): string => {
   return new Date(date * 1000).toLocaleDateString("en-US", {
     year: "numeric",

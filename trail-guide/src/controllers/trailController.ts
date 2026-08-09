@@ -31,3 +31,4 @@ export const getTrailBySlug = async (
     res.status(400).send("Check terminal console for the actual error");
   }
 };
+

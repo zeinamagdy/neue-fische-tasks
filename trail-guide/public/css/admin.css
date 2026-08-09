@@ -1,0 +1,54 @@
+.admin-main-content{
+    flex-direction: column;
+}
+.trails-table{
+    width: 80%;
+    margin:2rem
+}
+/* Inline alignment for SVG icons inside Pico buttons */
+button svg {
+  display: inline-block;
+  vertical-align: -2px;
+  margin-right: var(--pico-spacing, 0.25rem);
+}
+
+/* Custom Destructive (Delete) Style mapped to Pico CSS variables */
+button.btn-delete {
+  --pico-background-color: #dc2626;
+  --pico-border-color: #dc2626;
+  --pico-color: #ffffff;
+}
+
+button.btn-delete:hover,
+button.btn-delete:focus {
+  --pico-background-color: #b91c1c;
+  --pico-border-color: #b91c1c;
+}
+
+button.btn-delete.outline {
+  --pico-background-color: transparent;
+  --pico-color: #dc2626;
+  --pico-border-color: #dc2626;
+}
+
+button.btn-delete.outline:hover {
+  --pico-background-color: rgba(220, 38, 38, 0.1);
+  --pico-color: #dc2626;
+}
+
+/* Compact Icon-Only Adjustments */
+.pico-icon-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+button.btn-icon {
+  width: auto;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0; /* Clears Pico's default form margin */
+}
+
+button.btn-icon svg {
+  margin-right: 0;
+}
