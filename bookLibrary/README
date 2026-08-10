@@ -1,0 +1,19 @@
+ You receive an array of SQL result rows for the book catalogue. Each row contains id, title, author_name, is_available, and added_at.
+
+ Write TypeScript code that:
+
+ filters the array so only available books remain
+ maps each row into a response shape with id, title, authorName, and addedAt
+keeps the original array unchanged
+After you finish, explain which part of your solution is pure and where side effects (e.g. DB writes) would belong in an Express application.
+
+
+
+Book Library Reservations
+Your local library wants to create a reservation system for book reservations. Members of the library should be able to reserve books, mark them as returned, and cancel reservations through their online account. Create a BookReservation class in TypeScript that implements the following criteria:
+
+accept a member name and a book title in the constructor
+store the reservation status so it cannot be changed directly from outside the class. The status can only be “reserved”, “returned”, or “cancelled”.
+provide a markReturned method that rejects the action if the reservation is already returned or cancelled
+provide a cancel method that rejects the action if the book has already been returned
+provide a way to read the current status safely
