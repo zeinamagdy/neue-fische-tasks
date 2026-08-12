@@ -2,7 +2,7 @@ export interface Post {
   title: string;
   imageText: string;
   author: string;
-  createdAt: number;
+  createdAt: string;
   teaser: string;
   content: string;
 }
@@ -11,7 +11,7 @@ export const seedPosts: Post[] = [
     title: "Black: The Absence, Not the Presence, of Color",
     imageText: "colorful-umbrella.jpg",
     author: "Peter Parker",
-    createdAt: 1743120000,
+    createdAt: "2026-08-04",
     teaser:
       "Scientifically, black is not a color but rather the absence of all colors, occurring when an object absorbs nearly all light wavelengths instead of reflecting them.",
     content:
@@ -21,7 +21,7 @@ export const seedPosts: Post[] = [
     title: "Flowers: Nature's Muse for Design",
     imageText: "flowers.jpg",
     author: "Peter Parker",
-    createdAt: 1745452800,
+    createdAt: "2026-08-03",
     teaser:
       "Flowers inspire design with their color palettes, structure, and balance between repetition and variation.",
     content:
@@ -31,7 +31,7 @@ export const seedPosts: Post[] = [
     title: "UDesign's Harmony: Core Purpose and Supporting Details",
     imageText: "sailing.jpg",
     author: "Peter Parker",
-    createdAt: 1748736000,
+    createdAt: "2026-08-04",
     teaser:
       "Strong design starts with one clear core idea, then adds supporting details that reinforce it.",
     content:

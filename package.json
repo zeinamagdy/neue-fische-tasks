@@ -1,0 +1,26 @@
+{
+  "name": "neue-fische-tasks",
+  "version": "1.0.0",
+  "description": "Collection of tasks/projects for the neue-fisch advanced web development bootcamp. usimh bun index.html to run ser",
+  "homepage": "https://github.com/zeinamagdy/neue-fische-taskes#readme",
+  "bugs": {
+    "url": "https://github.com/zeinamagdy/neue-fische-taskes/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeinamagdy/neue-fische-taskes.git"
+  },
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.1",
+    "typescript": "^7.0.2"
+  }
+}

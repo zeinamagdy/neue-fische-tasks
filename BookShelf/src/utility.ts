@@ -4,7 +4,8 @@ groupBy<T, K extends keyof T>(items: T[], key: K): Record<string, T[]> takes an 
 where each key is a distinct value of that property and each value is an array of matching items. 
 Example: grouping books by author.
 
-pluck<T, K extends keyof T>(items: T[], key: K): T[K][] takes an array and a property name, then returns an array containing just that property’s value from each item. Example: extracting all book titles.
+pluck<T, K extends keyof T>(items: T[], key: K): T[K][] takes an array and a property name, then returns an array containing 
+just that property’s value from each item. Example: extracting all book titles.
 
 merge<T>(base: T, updates: Partial<T>): T takes a base object and a partial update, then returns a new object with the updates applied. Example: applying a BookUpdatePayload to a Book.
 

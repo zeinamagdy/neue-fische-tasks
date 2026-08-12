@@ -11,6 +11,24 @@ export function connectDB(): Database.Database {
     db = new Database(DB_FILE);
     // Recommended performance setting for SQLite
     db.pragma("journal_mode = WAL");
+
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS posts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      content TEXT NOT NULL,
+      teaser TEXT NOT NULL,
+      author TEXT NOT NULL,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      imageText TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS authors (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL
+    );
+    
+  `)
   }
   return db;
 }
@@ -18,25 +36,8 @@ export function connectDB(): Database.Database {
 export function getDB(): Database.Database {
   if (!db) {
     db = connectDB(); //  the connection to db
-  
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS posts (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      teaser TEXT NOT NULL,
-      author TEXT NOT NULL,
-      createdAt TEXT NOT NULL,
-      image TEXT NOT NULL,
-      content TEXT NOT NULL,
-      author_id INTEGER
-    );
-      CREATE TABLE IF NOT EXISTS authors (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL
-    );
-    
-  `);
   }
+
   return db;
 }
   

@@ -15,17 +15,13 @@ export async function createBlogEntry(
   entry: Omit<Post, "id">,
 ): Promise<number> {
   const db = getDB();
-  const fullPost: Post = {
-    ...entry,
-    createdAt: new Date().getTime()
-  };  
+ 
 const insertPost = db.prepare(`
-    INSERT INTO posts (title, teaser, author, createdAt, imageText, content)
-    VALUES (@title, @teaser, @author, @createdAt, @imageText, @content)
+    INSERT INTO posts (title, teaser, author,  imageText, content)
+    VALUES (@title, @teaser, @author,  @imageText, @content)
   `);
-  console.log("entery", fullPost);
 
-  const result = await insertPost.run(fullPost);
+  const result = await insertPost.run(entry);
   return Number(result.lastInsertRowid!);
 }
 
@@ -39,7 +35,6 @@ export async function updateBlogEntry(
     SET title = @title,
         teaser = @teaser,
         author = @author,
-        createdAt = @createdAt,
         imageText = @imageText,
         content = @content
     WHERE id = @id
@@ -50,7 +45,6 @@ export async function updateBlogEntry(
     title: entry.title,
     teaser: entry.teaser,
     author: entry.author,
-    createdAt: new Date().getTime(),
     imageText: entry.imageText,
     content: entry.content,
   });
@@ -67,7 +61,7 @@ export async function getPostByAuthor(
   auther_name: string,
 ): Promise<Post[] | undefined > {
   const db = getDB();
-    return (await db.prepare("SELECT * FROM posts INNER JOIN authors ON posts.author_id = authors.id WHERE name = ?"
+    return (await db.prepare("SELECT * FROM posts INNER JOIN authors ON posts.author = authors.id WHERE name = ?"
 ).all(auther_name)) as Post[];
 
 

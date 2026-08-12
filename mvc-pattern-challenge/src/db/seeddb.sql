@@ -6,9 +6,8 @@ CREATE TABLE posts (
   content TEXT NOT NULL,
   teaser TEXT NOT NULL,
   author TEXT NOT NULL,
-  createdAt Text NOT NULL,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
   imageText TEXT NOT NULL
-
 );
 
 
@@ -18,7 +17,7 @@ CREATE TEMP TABLE temp_posts_array (
   content TEXT,
   teaser TEXT,
   author TEXT,
-  createdAt TEXT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
   imageText TEXT
 );
 
@@ -29,7 +28,7 @@ INSERT INTO temp_posts_array (title, content, teaser, author, createdAt, imageTe
     '<p>When you think about the rainbow, you see a vibrant spectrum of hues. But black does not appear in that spectrum the same way red or blue does.</p><p>From a scientific perspective, black is usually the absence of visible light, not a reflected wavelength.</p>',
     'Scientifically, black is not a color but rather the absence of all colors, occurring when an object absorbs nearly all light wavelengths instead of reflecting them.',
     'Peter Parker',
-    '1743120000',
+    '2026-08-01 08:12:32',
     'colorful-umbrella.jpg'
   ),
   (
@@ -37,7 +36,7 @@ INSERT INTO temp_posts_array (title, content, teaser, author, createdAt, imageTe
     '<p>Designers borrow from flowers all the time: layered composition, contrasting accents, and natural hierarchy.</p>',
     'Flowers inspire design with their color palettes, structure, and balance between repetition and variation.',
     'Peter Parker',
-    '1745452800',
+    '2026-08-02 09:20:47',
     'flowers.jpg'
   ),
   (
@@ -45,7 +44,7 @@ INSERT INTO temp_posts_array (title, content, teaser, author, createdAt, imageTe
     '<p>A useful mental model is major and minor elements. Major elements communicate the main point, minor elements support it without stealing focus.</p>',
     'Strong design starts with one clear core idea, then adds supporting details that reinforce it.',
     'Peter Parker',
-    '1748736000',
+    '2026-08-03 16:29:47',
     'sailing.jpg'
   );
 

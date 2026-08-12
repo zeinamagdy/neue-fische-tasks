@@ -77,16 +77,11 @@ export const getPostsByAuthor = async (req: Request, res: Response) => {
   }
 };
 
-export const createPost = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const createPost = async (req: Request, res: Response) => {
   console.log("req", req.body);
   try {
-    const lastPostId = await postModel.createBlogEntry(req.body);
-    const posts = postModel.getAllPost();
-    res.status(201).render("admin/index", { posts: posts, lastId: lastPostId });
+    await postModel.createBlogEntry(req.body);
+    res.status(201).redirect("/admin");
   } catch (error) {
     console.log(error);
     res.status(400).send("Check terminal console for the actual error");
@@ -96,8 +91,7 @@ export const createPost = async (
 export const updatePost = async (req: Request, res: Response) => {
   try {
     await postModel.updateBlogEntry(Number(req.params.id), req.body);
-    const posts = postModel.getAllPost();
-    res.status(200).render("admin/index", { posts: posts });
+    res.status(200).redirect("/admin");
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Failed to update blog entry" });
@@ -107,8 +101,7 @@ export const updatePost = async (req: Request, res: Response) => {
 export const delPost = async (req: Request, res: Response) => {
   try {
     await postModel.deleteBlogEntry(Number(req.params.id));
-    const posts = postModel.getAllPost();
-    res.status(200).render("admin/index", { posts: posts });
+    res.status(200).redirect("/admin");
   } catch (err) {
     console.log("delete", err);
     res.status(500).json({ error: "Failed to delete blog entry" });
@@ -129,7 +122,7 @@ export const getPostBySlug = (req: Request, res: Response) => {
     return;
   }
   res.render("post", {
-    post: { ...post, createdAt: postModel.formatDate(post.createdAt) },
+    post: post,
   });
 };
 
