@@ -86,6 +86,7 @@ export const formateDate = (date: number): string => {
     day: "numeric",
   });
 };
+//TODO: convert to UID
 export const slugify = (title: string): string => {
   return title
     .toLowerCase()

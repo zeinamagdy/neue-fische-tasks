@@ -28,7 +28,7 @@ export const getTrailBySlug = async (
     if (trail) {
       res
         .status(200)
-        .render("./admin/trailForm", {
+        .render("./admin/form", {
           trail: trail,
           regions: regions,
           action: `../update/${trail.id}`,
@@ -42,7 +42,7 @@ export const getTrailBySlug = async (
 };
 export const getCreateTrailForm = async(req: Request, res: Response) => {
   const regions = await regionModel.getAllRegions()
-  res.render("admin/trailForm", {
+  res.render("admin/form", {
     trail: null,
     regions: regions,
     action: "/admin/create",
@@ -78,10 +78,4 @@ export const delteTrail = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to delete trail entry" });
   }
 };
-export const displayForm = async (req, res: Response) => {
-  try {
-    res.render("trailForm.html", {});
-  } catch (error) {
-    res.status(500).send("Error loading form");
-  }
-};
+
