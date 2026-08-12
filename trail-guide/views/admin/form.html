@@ -1,9 +1,8 @@
 {% extends "../_base.html" %} {% block main_content %}
-<div>
+<div class="admin-form">
   <h1>
     {% if trail %}Edit Trail: {{ trail.name }}{% else %}Create New Trail{% endif %}
   </h1>
-</div>
 
 <form action="{{ action }}" method="POST">
   <fieldset>
@@ -85,6 +84,5 @@
     value=" {% if trail %}Update Trail{% else %}Create Trail{% endif %}"
   />
 </form>
-{% endblock %} title: string; slug: string; difficulty: Difficulty; distance_km:
-number; description: string | null; image_url: string | null; created_at:
-number; region_name:string; region_country:string;
+</div>
+{% endblock %}

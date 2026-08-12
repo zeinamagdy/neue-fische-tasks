@@ -1,5 +1,8 @@
 .admin-main-content{
-    flex-direction: column;
+  margin-left: 3rem;
+}
+.admin-form{
+  flex-direction: column;
 }
 .trails-table{
     width: 80%;

@@ -1,7 +1,7 @@
 {% extends "../_base.html" %} {% import "../macros/trailTable.html" as
 trailMarcos %} {% block main_content %}
 <div class="admin-main-content">
-<header>
+<header class="add_new_btn">
   <button  onclick="window.location.href='/admin/form'">Add new Trail</button>
 </header>
 {{ trailMarcos.trailsTabel(trails) }} 
