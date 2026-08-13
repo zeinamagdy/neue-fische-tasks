@@ -3,9 +3,9 @@ import {SummoningCircle} from "./FactoryPattern/SummoningCirclce"
 
 
 console.log("Factory pattern")
-const dragon = new SummoningCircle()
-console.log("dragon",dragon.summon("fire"))
+const circle = new SummoningCircle()
+const creature1 =circle.summon("fire")
+creature1.useAbility()
 
-
-const Unicorn = new SummoningCircle()
-console.log("Unicorn",Unicorn.summon("sparkles"))
+const creature2 =circle.summon("sparkles")
+creature2.useAbility()
