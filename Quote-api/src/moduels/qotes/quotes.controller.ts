@@ -1,15 +1,21 @@
-import { Controller, Get, Inject } from "@nestjs/common";
-import {QuotesService} from "./quotes.service";
+import { Controller, Get, Inject, Query } from "@nestjs/common";
+import { QuotesService } from "./quotes.service";
 
-@Controller()
+@Controller("quotes")
 export class QuotesController {
-  constructor(@Inject(QuotesService) private readonly quotesService: QuotesService) {}
-  @Get("/quotes")
-  getall() {
-    return this.quotesService.getall()
+  constructor(
+    @Inject(QuotesService) private readonly quotesService: QuotesService,
+  ) {}
+  @Get()
+  getQuotes(@Query("author")author?: string) {
+    if (author) {
+      return this.quotesService.getByAuthor(author);
+    }
+    return this.quotesService.getall();
   }
-   @Get("/quotes/random")
+
+  @Get("random")
   getrandom() {
-    return this.quotesService.getrandom() 
+    return this.quotesService.getrandom();
   }
 }
