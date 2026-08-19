@@ -1,0 +1,33 @@
+{
+  "threads": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "author": "Alice",
+      "title": "Getting started with NestJS and SQLite",
+      "body": "What is the best way to handle database seeds in NestJS?"
+    },
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "author": "Bob",
+      "title": "TypeORM entity relationships",
+      "body": "How do relations work in SQLite?"
+    }
+  ],
+  "comments": [
+    {
+      "threadId": "11111111-1111-1111-1111-111111111111",
+      "author": "Charlie",
+      "body": "Using better-sqlite3 directly is super fast!"
+    },
+    {
+      "threadId": "11111111-1111-1111-1111-111111111111",
+      "author": "David",
+      "body": "Make sure to enable foreign keys in SQLite."
+    },
+    {
+      "threadId": "22222222-2222-2222-2222-222222222222",
+      "author": "Eve",
+      "body": "Check out the TypeORM documentation for OneToMany mappings."
+    }
+  ]
+}
