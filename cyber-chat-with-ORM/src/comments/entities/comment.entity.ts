@@ -9,7 +9,6 @@ import { Thread } from 'src/threads/entities/thread.entity';
 
 @Entity('comment')
 export class Comment {
-    
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -22,6 +21,8 @@ export class Comment {
   @Column({ type: 'text' })
   body: string;
 
+  @Column({ nullable: true })
+  publishedYear: number;
   @CreateDateColumn()
   createdAt: Date;
 

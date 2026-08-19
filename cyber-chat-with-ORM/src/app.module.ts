@@ -13,7 +13,7 @@ import { Comment } from './comments/entities/comment.entity';
       type: 'better-sqlite3',
       database: 'data/sqlite.db',
       entities: [Thread,Comment],
-      synchronize: true,
+      synchronize: false,
       logging: false,
       enableWAL: true,
       statementCacheSize: 100,

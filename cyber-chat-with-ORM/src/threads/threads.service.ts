@@ -14,7 +14,7 @@ constructor(
     private readonly thread: Repository<Thread>,
   ) {}
   create(createThreadDto: CreateThreadDto) {
-    return this.thread.create(createThreadDto)
+    return this.thread.save(createThreadDto)
   }
 
   findAll() {
