@@ -23,7 +23,7 @@ export class CommentsService {
     return this.comment.findOneBy({ id });
   }
 
-  findeAllByThreadId(threadId: string) {
+  findAllByThreadId(threadId: string) {
     return this.comment.find({ where: { threadId } });
   }
   update(id: string, updateCommentDto: UpdateCommentDto) {

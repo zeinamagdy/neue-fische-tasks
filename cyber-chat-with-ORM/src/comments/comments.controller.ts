@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  NotFoundException,
+  ParseUUIDPipe,
+  HttpCode,HttpStatus
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { CommentResponseDto } from './dto/comment-response.dto';
+import {returnResponse} from '../common/utils/returedResponse.util'
 
 @Controller('comments')
 export class CommentsController {
@@ -22,30 +25,38 @@ export class CommentsController {
   }
 
   @Get()
-  findAll() {
-    return this.commentsService.findAll();
+  async findAll(): Promise<CommentResponseDto> {
+    const comments = await this.commentsService.findAll();
+    return returnResponse(comments,CommentResponseDto,"comments")
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    const comment = this.commentsService.findOne(id);
-    if (!comment) {
-      throw new NotFoundException(`comment with id ${id} not found`);
-    }
-    return comment;
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<CommentResponseDto> {
+    const comment = await this.commentsService.findOne(id);
+    return returnResponse(comment, CommentResponseDto,"comment");
   }
   @Get('thread/:threadId')
-  findAllByThreadId(@Param('threadId') threadId: string) {
-    return this.commentsService.findeAllByThreadId(threadId);
+  async findAllByThreadId(@Param('threadId', ParseUUIDPipe) threadId: string) {
+    const commentsByThread =
+      await this.commentsService.findAllByThreadId(threadId);
+    return returnResponse(commentsByThread, CommentResponseDto,"comment");
   }
+  
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateCommentDto: UpdateCommentDto,
+  ) {
     return this.commentsService.update(id, updateCommentDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @HttpCode(HttpStatus.NO_CONTENT) 
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     console.log('id', id);
     return this.commentsService.remove(id);
   }
 }
+

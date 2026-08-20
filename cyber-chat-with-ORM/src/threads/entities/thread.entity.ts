@@ -18,7 +18,7 @@ export class Thread {
   @Column({ type: 'varchar', length: 120 })
   title: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', length: 1000 })
   body: string;
 
   @CreateDateColumn()

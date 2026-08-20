@@ -18,7 +18,7 @@ export class Comment {
   @Column({ type: 'varchar', length: 120 })
   author: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', length: 1000 })
   body: string;
 
   @Column({ nullable: true })

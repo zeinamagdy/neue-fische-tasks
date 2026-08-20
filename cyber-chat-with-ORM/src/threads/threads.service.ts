@@ -1,35 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateThreadDto } from './dto/create-thread.dto';
 import { UpdateThreadDto } from './dto/update-thread.dto';
-import { Repository } from "typeorm";
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Thread } from "./entities/thread.entity"
-
-
+import { Thread } from './entities/thread.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
+import { CreateCommentDto } from 'src/comments/dto/create-comment.dto';
 
 @Injectable()
 export class ThreadsService {
-constructor(
+  constructor(
     @InjectRepository(Thread)
     private readonly thread: Repository<Thread>,
   ) {}
   create(createThreadDto: CreateThreadDto) {
-    return this.thread.save(createThreadDto)
+    return this.thread.save(createThreadDto);
   }
 
   findAll() {
-    return  this.thread.find();
+    return this.thread.find();
   }
 
   findOne(id: string) {
-    return this.thread.findOneBy({id});
+    return this.thread.findOneBy({ id });
   }
 
   update(id: string, updateThreadDto: UpdateThreadDto) {
-    return this.thread.update(id,updateThreadDto);
+    return this.thread.update(id, updateThreadDto);
   }
 
   remove(id: string) {
     return this.thread.delete(id);
   }
+  // addComment(createCommentDto: CreateCommentDto) {
+  //   return this.comment.save(createCommentDto);
+  // }
 }
