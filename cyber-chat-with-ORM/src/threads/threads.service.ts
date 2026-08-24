@@ -12,7 +12,11 @@ export class ThreadsService {
   constructor(
     @InjectRepository(Thread)
     private readonly thread: Repository<Thread>,
+
+    @InjectRepository(Comment)
+    private readonly comment: Repository<Comment>,
   ) {}
+
   create(createThreadDto: CreateThreadDto) {
     return this.thread.save(createThreadDto);
   }
@@ -32,7 +36,13 @@ export class ThreadsService {
   remove(id: string) {
     return this.thread.delete(id);
   }
-  // addComment(createCommentDto: CreateCommentDto) {
-  //   return this.comment.save(createCommentDto);
-  // }
+
+  addComment(createCommentDto: CreateCommentDto, threadId: string) {
+    console.log('id in services', threadId);
+    const comment = this.comment.create({
+      ...CreateCommentDto,
+      threadId, // foreign key reference
+    });
+    return this.comment.save(comment);
+  }
 }

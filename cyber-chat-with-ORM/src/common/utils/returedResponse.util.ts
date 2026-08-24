@@ -11,13 +11,10 @@ import { plainToInstance } from 'class-transformer';
 export const returnResponse = <T, V>(
   result: T | null | undefined,
   responseDto: Type<V>,
-  entityName = 'Resource'
+  entityName = 'Resource',
 ): V => {
   if (!result) {
     throw new NotFoundException(`${entityName} not found`);
   }
-
-  return plainToInstance(responseDto, result, {
-    excludeExtraneousValues: true,
-  });
+  return plainToInstance(responseDto, result);
 };

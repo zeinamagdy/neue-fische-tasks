@@ -26,27 +26,26 @@ export class ThreadsController {
     return this.threadsService.create(createThreadDto);
   }
 
-  // @Post('/:id/comments')
-  // async addComment(
-  //   @Param('id') threadId: string,
-  //   @Body() createCommentDto: CreateCommentDto,
-  // ) {
-  //   const result = await this.threadsService.addComment(
-  //     createCommentDto
-  //   );
-  //   return returnResponse(result, CommentResponseDto, 'Thread');
-  // }
+  @Post('/:id/comments')
+  async addComment(
+    @Param('id',ParseUUIDPipe) id: string,
+    @Body() createCommentDto: CreateCommentDto,
+  ) {
+    console.log("id",typeof id)
+    const result = await this.threadsService.addComment(createCommentDto,id);
+    return returnResponse(result, CommentResponseDto, 'Thread');
+  }
 
   @Get()
   async findAll() {
     const threads = await this.threadsService.findAll();
-    returnResponse(threads, ThreadResponseDto, 'thread');
+    return returnResponse(threads, ThreadResponseDto, 'thread');
   }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     const thread = await this.threadsService.findOne(id);
-    returnResponse(thread, ThreadResponseDto, 'thread');
+    return returnResponse(thread, ThreadResponseDto, 'thread');
   }
 
   @Patch(':id')
