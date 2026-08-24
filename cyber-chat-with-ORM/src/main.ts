@@ -25,7 +25,7 @@ async function bootstrap() {
   //To run swagger documentation 
   const config = new DocumentBuilder()
     .setTitle('Cyber Chat API')
-    .setDescription('Threads, messages, and comments')
+    .setDescription('Threads, user, and comments')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

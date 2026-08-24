@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 //TO add configration to app and get env file safely and Asyn
 import { ConfigModule } from '@nestjs/config';
+import { User } from './user/entities/user.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,7 +19,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
       database: 'data/sqlite.db',
-      entities: [Thread, Comment],
+      entities: [Thread, Comment,User],
       synchronize: false,
       logging: false,
       enableWAL: true,
