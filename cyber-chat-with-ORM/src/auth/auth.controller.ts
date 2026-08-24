@@ -12,17 +12,19 @@ import { AuthGuard } from '@nestjs/passport';
 import { LoginDto } from './dto/login.dto';
 import { User } from 'src/user/entities/user.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
+  @Public()
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Request() req, @Body() _loginDto: LoginDto) {
     return this.authService.login(req.user as User);
   }
-  @ApiBearerAuth()// to run auth from swagger
+
+  @ApiBearerAuth() // to run auth from swagger
   @UseGuards(AuthGuard('jwt'))
   @Get('/me')
   getProfile(@Req() req) {

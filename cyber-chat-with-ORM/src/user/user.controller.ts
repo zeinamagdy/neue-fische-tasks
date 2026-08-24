@@ -12,14 +12,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { returnResponse } from '../common/utils/returedResponse.util';
 import { UserResponseDto } from './dto/user-response.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  @Public()
   @Post('/register')
   register(@Body() createUserDto: CreateUserDto) {
-    console.log("createUserDto",createUserDto)
+    console.log('createUserDto', createUserDto);
     return this.userService.create(createUserDto);
   }
 
@@ -31,7 +32,7 @@ export class UserController {
   @Get(':username')
   async findByUsername(@Param('username') username: string) {
     const user = this.userService.findByUsername(username);
-    return returnResponse(user,UserResponseDto,"user")
+    return returnResponse(user, UserResponseDto, 'user');
   }
 
   @Patch(':id')

@@ -11,6 +11,9 @@ import { UserModule } from './user/user.module';
 //TO add configration to app and get env file safely and Asyn
 import { ConfigModule } from '@nestjs/config';
 import { User } from './user/entities/user.entity';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { APP_GUARD } from "@nestjs/core";
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,7 +22,7 @@ import { User } from './user/entities/user.entity';
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
       database: 'data/sqlite.db',
-      entities: [Thread, Comment,User],
+      entities: [Thread, Comment, User],
       synchronize: false,
       logging: false,
       enableWAL: true,
@@ -32,6 +35,6 @@ import { User } from './user/entities/user.entity';
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],// App_GUARD  to protect all the routes
 })
 export class AppModule {}

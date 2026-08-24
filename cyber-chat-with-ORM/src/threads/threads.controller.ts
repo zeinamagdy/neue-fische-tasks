@@ -17,9 +17,7 @@ import { UpdateThreadDto } from './dto/update-thread.dto';
 import { ThreadResponseDto } from './dto/thread-response.dto';
 import { CreateCommentDto } from 'src/comments/dto/create-comment.dto';
 import { CommentResponseDto } from 'src/comments/dto/comment-response.dto';
-import {JwtAuthGuard} from '../auth/jwt-auth.guard'
 
-@UseGuards(JwtAuthGuard)
 @Controller('threads')
 export class ThreadsController {
   constructor(private readonly threadsService: ThreadsService) {}
