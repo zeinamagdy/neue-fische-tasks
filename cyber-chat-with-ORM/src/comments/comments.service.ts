@@ -11,23 +11,24 @@ export class CommentsService {
     @InjectRepository(Comment)
     private readonly comment: Repository<Comment>,
   ) {}
-  async create(createCommentDto: CreateCommentDto) {
-    return await this.comment.save(createCommentDto);
+  async create(createCommentDto: CreateCommentDto, username: string) {
+    const comment = { ...createCommentDto, author: username };
+    return await this.comment.save(comment);
   }
 
-  findAll() {
-    return this.comment.find();
+  findAllByusername(username: string) {
+    return this.comment.find({ where: { author: username } });
   }
 
   findOne(id: string) {
     return this.comment.findOneBy({ id });
   }
 
-  findAllByThreadId(threadId: string) {
-    return this.comment.find({ where: { threadId } });
+  findAllByThreadId(threadId: string, author: string) {
+    return this.comment.find({ where: { threadId, author } });
   }
-  update(id: string, updateCommentDto: UpdateCommentDto) {
-    return this.comment.update(id, updateCommentDto);
+  update(id: string, author: string, updateCommentDto: UpdateCommentDto) {
+    return this.comment.update({ id, author: author }, updateCommentDto);
   }
 
   remove(id: string) {

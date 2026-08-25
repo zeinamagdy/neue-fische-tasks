@@ -3,7 +3,6 @@
 import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
 
 export class CreateCommentDto {
-
   @IsString()
   threadId: string;
 
@@ -11,9 +10,8 @@ export class CreateCommentDto {
   @IsNotEmpty()
   @MaxLength(1000)
   body: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(120)
-  author: string;
+  //As it will come from JWT
+  // @IsString()
+  // @MaxLength(120)
+  // author: string;
 }
