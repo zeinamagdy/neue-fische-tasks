@@ -7,33 +7,32 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  UseGuards
 } from '@nestjs/common';
 import { returnResponse } from '../common/utils/returedResponse.util';
-
+import { UpdateOrdelResponse } from '../common/utils/update-delResponse';
 import { ThreadsService } from './threads.service';
 import { CreateThreadDto } from './dto/create-thread.dto';
 import { UpdateThreadDto } from './dto/update-thread.dto';
 import { ThreadResponseDto } from './dto/thread-response.dto';
 import { CreateCommentDto } from 'src/comments/dto/create-comment.dto';
 import { CommentResponseDto } from 'src/comments/dto/comment-response.dto';
+import { Userctx } from 'src/common/decorators/user.decorator';
 
 @Controller('threads')
 export class ThreadsController {
   constructor(private readonly threadsService: ThreadsService) {}
 
   @Post()
-  create(@Body() createThreadDto: CreateThreadDto) {
-    return this.threadsService.create(createThreadDto);
+  create(@Body() createThreadDto: CreateThreadDto,@Userctx('username') username :string) {
+    return this.threadsService.create(createThreadDto,username);
   }
 
   @Post('/:id/comments')
   async addComment(
-    @Param('id',ParseUUIDPipe) id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() createCommentDto: CreateCommentDto,
   ) {
-    console.log("id",typeof id)
-    const result = await this.threadsService.addComment(createCommentDto,id);
+    const result = await this.threadsService.addComment(createCommentDto, id);
     return returnResponse(result, CommentResponseDto, 'Thread');
   }
 
@@ -50,15 +49,18 @@ export class ThreadsController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateThreadDto: UpdateThreadDto,
+    @Userctx('username') username: string,
   ) {
-    return this.threadsService.update(id, updateThreadDto);
+    const result = await this.threadsService.update(id, username, updateThreadDto);
+    UpdateOrdelResponse(result, 'update', 'thread');
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.threadsService.remove(id);
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    const result = await this.threadsService.remove(id);
+    UpdateOrdelResponse(result,'delelte',"thread")
   }
 }

@@ -31,7 +31,7 @@ export class CommentsService {
     return this.comment.update({ id, author: author }, updateCommentDto);
   }
 
-  remove(id: string) {
-    return this.comment.delete(id);
+  remove(id: string, author: string) {
+    return this.comment.delete({ id, author });
   }
 }

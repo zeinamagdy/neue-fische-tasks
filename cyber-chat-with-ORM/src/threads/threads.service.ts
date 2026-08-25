@@ -17,8 +17,9 @@ export class ThreadsService {
     private readonly comment: Repository<Comment>,
   ) {}
 
-  create(createThreadDto: CreateThreadDto) {
-    return this.thread.save(createThreadDto);
+  create(createThreadDto: CreateThreadDto, author: string) {
+    const thread = { ...createThreadDto, author: author };
+    return this.thread.save(thread);
   }
 
   findAll() {
@@ -29,8 +30,8 @@ export class ThreadsService {
     return this.thread.findOneBy({ id });
   }
 
-  update(id: string, updateThreadDto: UpdateThreadDto) {
-    return this.thread.update(id, updateThreadDto);
+  update(id: string, author: string, updateThreadDto: UpdateThreadDto) {
+    return this.thread.update({ id, author }, updateThreadDto);
   }
 
   remove(id: string) {

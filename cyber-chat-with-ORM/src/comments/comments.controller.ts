@@ -85,8 +85,19 @@ export class CommentsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    console.log('id', id);
-    return this.commentsService.remove(id);
+  async remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Userctx('username') username: string,
+  ) {
+    const result = await this.commentsService.remove(id,username);
+    if (result.affected === 0)
+      throw new NotFoundException(
+        'Comment not found or you are not authorized to edit it',
+      );
+    return {
+      statusCode: 200,
+      message: 'Comment deleted successfully',
+    };
+
   }
 }
