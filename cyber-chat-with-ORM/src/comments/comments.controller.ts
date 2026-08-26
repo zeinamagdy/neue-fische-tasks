@@ -23,11 +23,28 @@ import { PaginationQueryDto } from '../common/dto/paginationQueryDto';
 import { PaginatedResponseDto } from '../common/dto/paginated-responseDto';
 import { plainToInstance } from 'class-transformer';
 
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Comment } from './entities/comment.entity';
+
+@ApiBearerAuth('token')
+@ApiTags('comments')
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Post()
+  @ApiCreatedResponse({
+    description: 'The Comment has been successfully created.',
+    type: Comment,
+  })
   async create(
     @Userctx('username') username: string,
     @Body() createCommentDto: CreateCommentDto,
@@ -36,6 +53,14 @@ export class CommentsController {
   }
 
   @Get()
+  @ApiOperation({
+    summary: 'List all comments in a thread related to the logged user',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Users retrieved successfully.',
+    type: [CommentResponseDto],
+  })
   async findAll(
     @Userctx('username') username: string,
     @Query() pagination: PaginationQueryDto,
@@ -50,6 +75,7 @@ export class CommentsController {
       take: limit,
       username,
     });
+
     const data = plainToInstance(CommentResponseDto, comments, {
       excludeExtraneousValues: true,
     });
@@ -66,6 +92,9 @@ export class CommentsController {
   }
 
   @Get(':id')
+  @ApiNotFoundResponse({
+    description: 'comment with the specified ID was not found.',
+  })
   async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<CommentResponseDto> {

@@ -3,18 +3,30 @@
 // each with sensible class-validator rules and length limits. The update DTO should extend PartialType(CreateThreadDto) from @nestjs/mapped-types.
 
 import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateThreadDto {
+  @ApiProperty({
+    example: 'Nestjs as backend feamework',
+    description: 'Thread title',
+  })
   @IsString()
   @IsNotEmpty()
   @MaxLength(120)
   title: string;
 
+  @ApiProperty({
+    example: 'nestjs is a popular framework .......',
+    description: 'Thread description',
+  })
   @IsString()
   @IsNotEmpty()
   @MaxLength(1000)
   body: string;
 
+  @ApiProperty({
+    example: 'Zeinab xxxxxxx',
+    description: 'Thread"\'" author',
+  })
   @IsString()
   @IsNotEmpty()
   @MaxLength(120)
