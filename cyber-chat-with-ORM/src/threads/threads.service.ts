@@ -22,12 +22,21 @@ export class ThreadsService {
     return this.thread.save(thread);
   }
 
-  findAll() {
-    return this.thread.find();
+  findAll({skip,take,username}:{
+    skip: number;
+    take: number;
+    username: string;
+  }) {
+    return this.thread.findAndCount({
+      where: { author: username },
+      skip,
+      take,
+      order: { createdAt: 'DESC' },
+    });
   }
 
   findOne(id: string) {
-    return this.thread.findOneBy({ id });
+    return this.thread.findOneBy({  id });
   }
 
   update(id: string, author: string, updateThreadDto: UpdateThreadDto) {

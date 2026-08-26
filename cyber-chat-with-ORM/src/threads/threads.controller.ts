@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { returnResponse } from '../common/utils/returedResponse.util';
 import { UpdateOrdelResponse } from '../common/utils/update-delResponse';
@@ -17,14 +19,18 @@ import { ThreadResponseDto } from './dto/thread-response.dto';
 import { CreateCommentDto } from 'src/comments/dto/create-comment.dto';
 import { CommentResponseDto } from 'src/comments/dto/comment-response.dto';
 import { Userctx } from 'src/common/decorators/user.decorator';
+import { PaginationQueryDto } from 'src/common/dto/paginationQueryDto';
 
 @Controller('threads')
 export class ThreadsController {
   constructor(private readonly threadsService: ThreadsService) {}
 
   @Post()
-  create(@Body() createThreadDto: CreateThreadDto,@Userctx('username') username :string) {
-    return this.threadsService.create(createThreadDto,username);
+  create(
+    @Body() createThreadDto: CreateThreadDto,
+    @Userctx('username') username: string,
+  ) {
+    return this.threadsService.create(createThreadDto, username);
   }
 
   @Post('/:id/comments')
@@ -37,9 +43,23 @@ export class ThreadsController {
   }
 
   @Get()
-  async findAll() {
-    const threads = await this.threadsService.findAll();
-    return returnResponse(threads, ThreadResponseDto, 'thread');
+  async findAll(
+    @Userctx('username') username: string,
+    @Query() pagination: PaginationQueryDto,
+  ): Promise<ThreadResponseDto> {
+    const { page, limit } = pagination;
+
+    if (!username) {
+      throw new BadRequestException('Username is missing from request context');
+    } else {
+      const [threads, total] = await this.threadsService.findAll({
+        skip: (page - 1) * limit,
+        take: limit,
+        username,
+      });
+      console.log('count', total);
+      return returnResponse(threads, ThreadResponseDto, 'thread');
+    }
   }
 
   @Get(':id')
@@ -54,13 +74,17 @@ export class ThreadsController {
     @Body() updateThreadDto: UpdateThreadDto,
     @Userctx('username') username: string,
   ) {
-    const result = await this.threadsService.update(id, username, updateThreadDto);
+    const result = await this.threadsService.update(
+      id,
+      username,
+      updateThreadDto,
+    );
     UpdateOrdelResponse(result, 'update', 'thread');
   }
 
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     const result = await this.threadsService.remove(id);
-    UpdateOrdelResponse(result,'delelte',"thread")
+    UpdateOrdelResponse(result, 'delelte', 'thread');
   }
 }

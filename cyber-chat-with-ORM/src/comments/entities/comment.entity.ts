@@ -27,5 +27,6 @@ export class Comment {
   createdAt: Date;
 
   @ManyToOne(() => Thread, (thread) => thread.comments)
-  Thread: Thread;
+  thread: Thread;
 }
+

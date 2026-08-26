@@ -6,6 +6,8 @@ import {
   Request,
   Get,
   Req,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -23,7 +25,17 @@ export class AuthController {
   async login(@Request() req, @Body() _loginDto: LoginDto) {
     return this.authService.login(req.user as User);
   }
-
+  @Post('logout')
+  @ApiBearerAuth() // to run auth from swagger
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  async logout(@Req() req) {
+    // req.user contains { username: string, sub: string } from your JWT strategy
+    return {
+      success: true,
+      message: `User ${req.user.username} logged out successfully`,
+    };
+  }
   @ApiBearerAuth() // to run auth from swagger
   @UseGuards(AuthGuard('jwt'))
   @Get('/me')

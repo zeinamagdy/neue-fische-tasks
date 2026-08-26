@@ -15,9 +15,25 @@ export class CommentsService {
     const comment = { ...createCommentDto, author: username };
     return await this.comment.save(comment);
   }
-
-  findAllByusername(username: string) {
-    return this.comment.find({ where: { author: username } });
+  //find all comments for the logged user and paging
+  findAllByusername({
+    skip,
+    take,
+    username,
+  }: {
+    skip: number;
+    take: number;
+    username: string;
+  }) {
+    return this.comment.findAndCount({
+      where: { author: username },
+      relations: {
+        thread: true, // <--- to get the thread with the comments
+      },
+      skip,
+      take,
+      order: { createdAt: 'DESC' },
+    });
   }
 
   findOne(id: string) {

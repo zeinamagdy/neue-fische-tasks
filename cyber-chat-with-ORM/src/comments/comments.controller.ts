@@ -8,6 +8,7 @@ import {
   Delete,
   ParseUUIDPipe,
   HttpCode,
+  Query,
   HttpStatus,
   BadRequestException,
   NotFoundException,
@@ -18,6 +19,10 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CommentResponseDto } from './dto/comment-response.dto';
 import { returnResponse } from '../common/utils/returedResponse.util';
 import { Userctx } from '../common/decorators/user.decorator';
+import { PaginationQueryDto } from '../common/dto/paginationQueryDto';
+import { PaginatedResponseDto } from '../common/dto/paginated-responseDto';
+import { plainToInstance } from 'class-transformer';
+
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
@@ -33,13 +38,31 @@ export class CommentsController {
   @Get()
   async findAll(
     @Userctx('username') username: string,
-  ): Promise<CommentResponseDto> {
+    @Query() pagination: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<CommentResponseDto>> {
+    const { page, limit } = pagination;
+
     if (!username) {
       throw new BadRequestException('Username is missing from request context');
-    } else {
-      const comments = await this.commentsService.findAllByusername(username);
-      return returnResponse(comments, CommentResponseDto, 'comments');
     }
+    const [comments, total] = await this.commentsService.findAllByusername({
+      skip: (page - 1) * limit,
+      take: limit,
+      username,
+    });
+    const data = plainToInstance(CommentResponseDto, comments, {
+      excludeExtraneousValues: true,
+    });
+    const totalPages = Math.ceil(total / limit);
+    return {
+      data,
+      meta: {
+        page: Number(page),
+        limit: Number(limit),
+        total,
+        totalPages,
+      },
+    };
   }
 
   @Get(':id')
@@ -89,7 +112,7 @@ export class CommentsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Userctx('username') username: string,
   ) {
-    const result = await this.commentsService.remove(id,username);
+    const result = await this.commentsService.remove(id, username);
     if (result.affected === 0)
       throw new NotFoundException(
         'Comment not found or you are not authorized to edit it',
@@ -98,6 +121,5 @@ export class CommentsController {
       statusCode: 200,
       message: 'Comment deleted successfully',
     };
-
   }
 }
