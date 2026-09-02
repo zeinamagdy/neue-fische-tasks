@@ -1,19 +1,24 @@
+# Stage 1: build
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+
+# Stage 2: runtime
 FROM node:22-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# 1. Install all dependencies (including devDependencies needed for build)
-COPY package*.json ./
-RUN npm install
-
-# 2. Copy source code and COMPILE TypeScript inside Docker
-COPY . .
-# 3. Explicitly compile using npx nest build
-RUN npx nest build
-# 3. Clean up node_modules and keep only production dependencies
-RUN npm prune --omit=dev
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
+RUN npm ci --omit=dev
 
 EXPOSE 3000
-
-# 4. Run the compiled JavaScript directly (Fast & lightweight)
-CMD ["node", "dist/src/main"]
+ENV NODE_ENV=production
+CMD ["node", "dist/src/main.js"]
