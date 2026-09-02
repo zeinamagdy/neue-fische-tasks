@@ -14,6 +14,7 @@ export class CreateCommentDto {
   @ApiProperty({
     example: ' Swagger is a good tool to use',
     description: 'comment text',
+    nullable: true,
   })
   @IsString()
   @IsNotEmpty()

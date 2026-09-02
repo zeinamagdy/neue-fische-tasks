@@ -18,6 +18,7 @@ import { APP_GUARD } from "@nestjs/core";
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // Makes ConfigService available everywhere without re-importing
+      envFilePath: '.env',
     }),
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
