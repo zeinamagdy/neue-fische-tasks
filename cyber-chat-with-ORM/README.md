@@ -1,3 +1,3 @@
-//To run docker image
+//To run docker container
 //to solve the problem with env file 
- docker run --env-file .env <image-name-or-id>
+ docker run --env-file .env <container-name-or-id>

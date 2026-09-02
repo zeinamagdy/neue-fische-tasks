@@ -58,6 +58,9 @@ async function bootstrap() {
 
   // Write the OpenAPI spec to a json file
   fs.writeFileSync('./swagger-spec.json', JSON.stringify(document, null, 2));
-  await app.listen(process.env.PORT ?? 4000);
+
+  console.log("Hi")
+  
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
