@@ -36,6 +36,7 @@ import { APP_GUARD } from "@nestjs/core";
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],// App_GUARD  to protect all the routes
+  providers:[AppService]
+  // providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],// App_GUARD  to protect all the routes
 })
 export class AppModule {}
