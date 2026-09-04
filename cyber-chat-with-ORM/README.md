@@ -6,6 +6,4 @@
 
  docker compose -f docker-compose.yaml up --build -d
 
-
-
- 
+Deployed to render https://cyberchat-78uv.onrender.com
