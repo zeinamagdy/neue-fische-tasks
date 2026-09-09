@@ -1,14 +1,17 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import ThemeToggle from "./components/ThemeToggle";
 
 export default function Home() {
   return (
     <div className={styles.page}>
+      <ThemeToggle />
+
       <main className={styles.main}>
-    <div>
-      <h1>Kiki's Delivery Service</h1>
-      <p>Fast, reliable deliveries across the city.</p>
-    </div>
+        <div>
+          <h1>Kiki's Delivery Service</h1>
+          <p>Fast, reliable deliveries across the city.</p>
+        </div>
       </main>
     </div>
   );

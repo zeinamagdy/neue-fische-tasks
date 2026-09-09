@@ -6,8 +6,11 @@ export type DeliveryRequest = {
   destination: string;
   status: DeliveryStatus;
 };
-
-const deliveries: DeliveryRequest[] = [
+export type FormData = {
+  pickup: string;
+  destination: string;
+};
+let deliveries: DeliveryRequest[] = [
   { id: "1", pickup: "Bakery", destination: "Clock Tower", status: "active" },
   {
     id: "2",
@@ -30,4 +33,13 @@ export function getAllDeliveries(): DeliveryRequest[] {
 
 export function getDeliveryById(id: string): DeliveryRequest | null {
   return deliveries.find((d) => d.id === id) || null;
+}
+export function createDelivery(formData: FormData) {
+  const newDelivery:DeliveryRequest = {
+   ...formData,
+    status: "active",
+    id: Math.random().toString(36).substring(2, 9),
+  };
+   deliveries = [...deliveries, newDelivery];
+   return newDelivery.id
 }

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Cherry_Bomb_One } from "next/font/google";
+import { ThemeProvider } from "./components/ThemeProvider";
 import "./globals.css";
 
 const cherryBomb = Cherry_Bomb_One({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-cherry-bomb', // Defines the custom CSS variable
-  display: 'swap',
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-cherry-bomb", // Defines the custom CSS variable
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -16,12 +17,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={cherryBomb.variable}>
+    <html lang="en" className={cherryBomb.variable} suppressHydrationWarning>
       <body>
-        <header style={{ fontFamily: 'var(--font-cherry-bomb)' }}>
-          <h1>Kiki’s Delivery Service</h1>
-        </header>
-        {children}
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <header style={{ fontFamily: "var(--font-cherry-bomb)" }}>
+            <h1>Kiki’s Delivery Service</h1>
+          </header>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
