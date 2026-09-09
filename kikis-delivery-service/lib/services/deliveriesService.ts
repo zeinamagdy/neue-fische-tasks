@@ -6,7 +6,7 @@ export type DeliveryRequest = {
   destination: string;
   status: DeliveryStatus;
 };
-export type FormData = {
+export type DeliveryFormData = {
   pickup: string;
   destination: string;
 };
@@ -34,12 +34,13 @@ export function getAllDeliveries(): DeliveryRequest[] {
 export function getDeliveryById(id: string): DeliveryRequest | null {
   return deliveries.find((d) => d.id === id) || null;
 }
-export function createDelivery(formData: FormData) {
-  const newDelivery:DeliveryRequest = {
-   ...formData,
+export function createDelivery(data: DeliveryFormData) {
+  const newDelivery: DeliveryRequest = {
+    pickup: data.pickup,
+    destination: data.destination,
     status: "active",
     id: Math.random().toString(36).substring(2, 9),
   };
-   deliveries = [...deliveries, newDelivery];
-   return newDelivery.id
+  deliveries = [...deliveries, newDelivery];
+  return newDelivery.id;
 }
