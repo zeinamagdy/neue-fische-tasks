@@ -1,6 +1,14 @@
 "use client";
 import { DeliveryRequest } from "@/lib/services/deliveriesService";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function DeliveryFilter({
   deliveries,
@@ -12,22 +20,26 @@ export default function DeliveryFilter({
     status === "all"
       ? deliveries
       : deliveries.filter((delivery) => delivery.status === status);
-  const getStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setStatus(event.target.value);
-  };
   return (
     <div>
-      <label htmlFor="status">Choose status:</label>
-      <select id="status" value={status} onChange={getStatus}>
-        <option value="all">All</option>
-        <option value="active">Active</option>
-        <option value="accepted">Accepted</option>
-        <option value="fulfilled">Fulfilled</option>
-      </select>
-      <ul>
+      <Select id="status" value={status} onValueChange={(val) => val && setStatus(val)}>
+        <SelectTrigger>
+          <SelectValue placeholder="Fileter by status"></SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+        <SelectItem value="all">All</SelectItem>
+        <SelectItem value="active">Active</SelectItem>
+        <SelectItem value="accepted">Accepted</SelectItem>
+        <SelectItem value="fulfilled">Fulfilled</SelectItem>
+        </SelectContent>
+      </Select>
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {visiable.map((delivery) => (
           <li key={delivery.id}>
             {delivery.pickup} to {delivery.destination} ({delivery.status})
+            <Button>Accept</Button>
+            <Button variant="outline">Details</Button>
+            <Button variant="destructive">Cancel delivery</Button>
           </li>
         ))}
       </ul>

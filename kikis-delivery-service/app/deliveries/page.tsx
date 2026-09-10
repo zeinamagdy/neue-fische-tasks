@@ -1,14 +1,12 @@
 import { getAllDeliveries } from "@/lib/services/deliveriesService";
 import Link from "next/link";
 import DeliveryFilter from "./DeliveryFilter";
-import ThemeToggle from "../components/ThemeToggle";
 
 export default async function DeliveriesPage() {
   const deliveries = await getAllDeliveries(); // calls separate Backend API or makes a direct database query
 
   return (
     <div>
-      <ThemeToggle />
       <h1>All Deliveries</h1>
       <DeliveryFilter deliveries={deliveries} />
     </div>
