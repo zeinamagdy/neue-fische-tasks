@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cherry_Bomb_One, Geist, Inter, Raleway } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 const ralewayHeading = Raleway({subsets:['latin'],variable:'--font-heading'});
 
@@ -22,12 +22,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
-      <body>
-        
-          <header style={{ fontFamily: "var(--font-cherry-bomb)" }}>
-            <h1>Kiki’s Delivery Service</h1>
-          </header>
+      <body suppressHydrationWarning>
+         <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
           {children}
+          </ThemeProvider>
       </body>
     </html>
   );

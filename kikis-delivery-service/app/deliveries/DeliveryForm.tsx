@@ -17,10 +17,7 @@ export default function DeliveryForm() {
         <Label htmlFor="destination">destination</Label>
         <Input name="destination" placeholder="destination" />
         {state?.ok === false && <p className="text-red-500">{state.error}</p>}
-        <Button
-          className="bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-          type="submit"
-        >
+        <Button variant="brand" type="submit">
           Create Request
         </Button>
         <div>{isPending ? "Creating..." : "Create Delivery"}</div>
